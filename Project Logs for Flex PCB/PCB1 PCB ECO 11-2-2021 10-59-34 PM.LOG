@@ -1,0 +1,15 @@
+Change Component Footprint: Designator=C20 Old Footprint=FP-C0603-030-0_03-IPC_B New Footprint=FP-C0603-030-0_03-IPC_A
+Change Component Footprint: Designator=C1 Old Footprint=FP-C1608-080-0_1-IPC_B New Footprint=FP-C1608-080-0_1-IPC_A
+Change Component Footprint: Designator=C7 Old Footprint=FP-C1608-080-0_1-IPC_B New Footprint=FP-C1608-080-0_1-IPC_A
+Change Component Footprint: Designator=L8 Old Footprint=FP-CB2012-IPC_B New Footprint=FP-CB2012-IPC_A
+Change Component Footprint: Designator=C24 Old Footprint=FP-CC0201-BA-MFG New Footprint=FP-CC0201-BA-IPC_A
+Change Component Footprint: Designator=C11 Old Footprint=FP-CC0603-DC-MFG New Footprint=FP-CC0603-DC-IPC_A
+Change Component Footprint: Designator=C12 Old Footprint=FP-CC0603-DC-MFG New Footprint=FP-CC0603-DC-IPC_A
+Change Component Footprint: Designator=C14 Old Footprint=FP-CL03-IPC_B New Footprint=FP-CL03-IPC_A
+Change Component Footprint: Designator=C15 Old Footprint=FP-CL03-IPC_C New Footprint=FP-CL03-IPC_A
+Change Component Footprint: Designator=C16 Old Footprint=FP-GRM033-0_03-MFG New Footprint=FP-GRM033-0_03-IPC_A
+Change Component Footprint: Designator=C17 Old Footprint=FP-GRM033-0_03-MFG New Footprint=FP-GRM033-0_03-IPC_A
+Change Component Footprint: Designator=C18 Old Footprint=FP-GRM035-0_09-MFG New Footprint=FP-GRM035-0_09-IPC_A
+Change Component Footprint: Designator=C21 Old Footprint=FP-GRM188-0_15-IPC_B New Footprint=FP-GRM188-0_15-IPC_A
+Change Component Footprint: Designator=L2 Old Footprint=FP-LQP03TG_02-IPC_B New Footprint=FP-LQP03TG_02-IPC_A
+Change Component Footprint: Designator=L3 Old Footprint=INDC1608L New Footprint=INDC3216

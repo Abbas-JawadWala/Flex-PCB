@@ -1,0 +1,596 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : sans-serif;
+			color : white;
+			background-color : #21489e;
+			padding: 0.3em;
+		}
+		body {
+			font-family : verdana;
+		}
+		td, th {
+			padding: 0.5em;
+			text-align : center;
+			width : 18%;
+		}
+		th {
+			background-color : #A6CAF0;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+		}
+		
+		.DRC_summary_header {							
+			padding-bottom : 0.1em;
+			border : 0px solid black;							
+			width: 100%;
+                        align: right;
+                        
+		}
+
+		.DRC_summary_header_col1, 
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3
+		{
+			color : black;
+			font-size:150%;
+                        padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2: 0em;
+			border : 0px solid black;
+			width : auto;
+			vertical-align: top;
+			font-weight: bold;				
+		}
+		
+		.DRC_summary_header_col1 	
+		{		                       
+			text-align: right;
+                        width: auto;	
+		}
+
+		.DRC_summary_header_col2 	
+		{		
+			text-align: center;	
+		}
+
+		.DRC_summary_header_col3 	
+		{		
+			text-align: left;	
+		}
+
+
+		
+		.header_holder
+		{
+		Width = 100%;
+		border = 0px solid green;
+		padding = 0;
+		}
+		
+		
+		
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+                {
+			left:0;
+			top:0;
+			padding-top : 0.1em;			
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top
+
+		}
+		.front_matter {	
+			
+			margin-top: 5px;
+ 			margin-left: 0px;					 			
+ 			horizontal-align: left;
+		}
+				
+		
+		.front_matter_column1 {
+			width : 10em;	
+			text-align  : right;
+			padding-right:0.1em;
+			
+		}
+		
+		.front_matter_column2 {
+                        width: 0.1em;
+			align: center;
+			text-align : center;
+			margin-right  : 0.1em;	
+			margin-left   : 0.1em;
+		}
+		.front_matter_column3 {
+			width         : auto;  
+			text-align    : left;	
+			margin-right  : 0.5em;				
+		}
+		
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : right;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #EEEEE0 
+		}
+		tr.onmouseout_even { 
+			background-color : #F3F3E3   
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : lightYellow
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #008000 
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD14\Templates\AD-rgb_logo_223x64.gif
+		"><a href="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports" class="customize"><acronym title="dxpprocess://Client:SetupPreferences?Server=PCB|PageName=Reports">customize</acronym></a><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td Style="width:70%">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">05-08-2021</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">19:51:05</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3">00:00:00</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename</td>
+<td class="front_matter_column2">:</td>
+<td class="front_matter_column3"><a href="file:///E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc" class="file"><acronym title="E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc">E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td Style="Width:30%">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations</td>
+<td class="DRC_summary_header_col2">:</td>
+<td class="DRC_summary_header_col3" style="color : red">70</td></tr>
+</table>
+</td>
+</table>
+<hr><a name="IDWHD2TF0RTVBYJQEPXMCYIAK50MKBOBRIRU3X4SCRXB4R5EJAYBYJ"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID5QACRBBSEGL5K51DC0ANY4YEOPLPMKHEDJFOEYNOKSRJKGLDUH0G">Rule</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDEUHUSZ0GOG3DOQ1QHHJASOAJ1GFCPW424L0N4CK1PT3U0HUR302M">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">2</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDHRKINMKFM20DF3WXLUQHU1H1XJANTTOSRC0XCADNAXWAR0UKWHPF">Silk to Silk (Clearance=10mil) (Disabled)(All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDDLECJQQAZZIC1GPEG0MPGPLPNZNJY43ATREAXGGFC1GIKUDVZFK">Silk To Solder Mask (Clearance=10mil) (Disabled)(IsPad),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQQXUGNS2K3H3EVJWFZRAGDRQRGI1GSBNZZH0BRI0J4Y3T0T1IEBF">Minimum Solder Mask Sliver (Gap=4.921mil) (Disabled)(All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDBD4YMBTQXSO2N4YIW1TOPC521PRMKSIKAGHKD5KFNSYTD2NMBCXM">Hole To Hole Clearance (Gap=5.905mil) (All),(All)</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID3SO2W1TRJFGVPWP03NDOBFP1ZNAOYYBNKEWEFDLMUFO1FVXIU51J">Hole Size Constraint (Min=1mil) (Max=100mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDTINKS3KQIB4FKJ5VKHPNNMCNSC2VV2UTZUN3PNL0YECKSE45TQNF">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDIGXRV2Q2IJYIL54FCGSMQP5CHBFWN4JIHUDZLKPAZPJCPB5XRKWL">Width Constraint (Min=4mil) (Max=10mil) (Preferred=4mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDYGC1QGCKAA3YNYHIHSA41HRNWLNSE3BZ1MFJQ5B24NPH5IGPNIJH">Power Plane Connect Rule(Direct Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID2POA2YZOMSJKFU4EBGTFKELUSNWJZ4VVCEYAN3DU25JDHM4JL0WI">Clearance Constraint (Gap=3mil) (All),(All)</a></td>
+<td class="column2">33</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDYOT3MFGOTU2EGE2NXYQNPGYIXB13WN2RZV3LJEIA422G1PKSU03P">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">34</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDERGB3PEBTAQKE2QWFAZ1KGOCLE14P1LDR4TPYOHQ0R22LJNRWAKO">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">70</td>
+</tr>
+</table><br><hr><a name="IDEUHUSZ0GOG3DOQ1QHHJASOAJ1GFCPW424L0N4CK1PT3U0HUR302M"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Net Antennae (Tolerance=0mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4349.947mil|Location2.X=4384.42mil|Location1.Y=3319.454mil|Location2.Y=3371.604mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4349.947mil|Location2.X=4384.42mil|Location1.Y=3319.454mil|Location2.Y=3371.604mil|Absolute=True">Net Antennae: Via (1364.004mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4321.246mil|Location2.X=4338.304mil|Location1.Y=3300.28mil|Location2.Y=3323.709mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4321.246mil|Location2.X=4338.304mil|Location1.Y=3300.28mil|Location2.Y=3323.709mil|Absolute=True">Net Antennae: Track (1327.303mil,-114.303mil)(1327.303mil,-4.075mil)  Int3 (Sign)</acronym></a><br></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="IDBD4YMBTQXSO2N4YIW1TOPC521PRMKSIKAGHKD5KFNSYTD2NMBCXM"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Hole To Hole Clearance (Gap=5.905mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1435.047mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True">Via (1435.047mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="ID2POA2YZOMSJKFU4EBGTFKELUSNWJZ4VVCEYAN3DU25JDHM4JL0WI"><table>
+<tr>
+<th style="text-align : left" colspan="2" class="rule">Clearance Constraint (Gap=3mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3396.946mil|Location2.Y=3407.969mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3396.946mil|Location2.Y=3407.969mil|Absolute=True">Pad U3-20(1449.067mil,-17.626mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3387.103mil|Location2.Y=3398.127mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3387.103mil|Location2.Y=3398.127mil|Absolute=True">Pad U3-19(1449.067mil,-27.468mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3416.631mil|Location2.Y=3427.655mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3416.631mil|Location2.Y=3427.655mil|Absolute=True">Pad U3-22(1449.067mil,2.059mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3426.473mil|Location2.Y=3437.497mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3426.473mil|Location2.Y=3437.497mil|Absolute=True">Pad U3-23(1449.067mil,11.902mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3436.316mil|Location2.Y=3447.34mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3436.316mil|Location2.Y=3447.34mil|Absolute=True">Pad U3-24(1449.067mil,21.744mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3426.473mil|Location2.Y=3437.497mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3426.473mil|Location2.Y=3437.497mil|Absolute=True">Pad U3-23(1449.067mil,11.902mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4411.065mil|Location2.X=4422.088mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4411.065mil|Location2.X=4422.088mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-26(1417.134mil,39.287mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4420.927mil|Location2.X=4431.951mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4420.927mil|Location2.X=4431.951mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-25(1426.996mil,39.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4391.305mil|Location2.X=4402.329mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4391.305mil|Location2.X=4402.329mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-28(1397.374mil,39.287mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.232mil|Location2.X=4412.256mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.232mil|Location2.X=4412.256mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-27(1407.301mil,39.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.547mil|Location2.X=4392.571mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.547mil|Location2.X=4392.571mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-29(1387.616mil,39.287mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4391.305mil|Location2.X=4402.329mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4391.305mil|Location2.X=4402.329mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-28(1397.374mil,39.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3454.371mil|Location2.Y=3464.371mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3454.371mil|Location2.Y=3464.371mil|Absolute=True">Via (1375.721mil,39.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.547mil|Location2.X=4392.571mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.547mil|Location2.X=4392.571mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-29(1387.616mil,39.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3403.072mil|Location2.Y=3414.095mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3403.072mil|Location2.Y=3414.095mil|Absolute=True">Pad U3-33(1334.303mil,-11.5mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3413.397mil|Location2.Y=3424.42mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3413.397mil|Location2.Y=3424.42mil|Absolute=True">Pad U3-3(1334.303mil,-1.175mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3392.704mil|Location2.Y=3403.727mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3392.704mil|Location2.Y=3403.727mil|Absolute=True">Pad U3-4(1334.303mil,-21.868mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3403.072mil|Location2.Y=3414.095mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3403.072mil|Location2.Y=3414.095mil|Absolute=True">Pad U3-33(1334.303mil,-11.5mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3413.908mil|Location2.Y=3423.908mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3413.908mil|Location2.Y=3423.908mil|Absolute=True">Via (1334.303mil,-1.175mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3403.072mil|Location2.Y=3414.095mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3403.072mil|Location2.Y=3414.095mil|Absolute=True">Pad U3-33(1334.303mil,-11.5mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3382.17mil|Location2.Y=3392.17mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3382.17mil|Location2.Y=3392.17mil|Absolute=True">Via (1334.303mil,-32.913mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3392.704mil|Location2.Y=3403.727mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3392.704mil|Location2.Y=3403.727mil|Absolute=True">Pad U3-4(1334.303mil,-21.868mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1435.047mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4417.088mil|Location2.X=4428.112mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4417.088mil|Location2.X=4428.112mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-15(1423.158mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4424.49mil|Location2.X=4444.49mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True">Via (1435.047mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4417.088mil|Location2.X=4428.112mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4417.088mil|Location2.X=4428.112mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-15(1423.158mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.87mil|Location2.X=4403.87mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.87mil|Location2.X=4403.87mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1399.427mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4405.199mil|Location2.X=4416.222mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4405.199mil|Location2.X=4416.222mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-14(1411.268mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1387.532mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.358mil|Location2.X=4404.381mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.358mil|Location2.X=4404.381mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-13(1399.427mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1375.721mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.462mil|Location2.X=4392.486mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.462mil|Location2.X=4392.486mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-12(1387.532mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.87mil|Location2.X=4403.87mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.87mil|Location2.X=4403.87mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1399.427mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.462mil|Location2.X=4392.486mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4381.462mil|Location2.X=4392.486mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-12(1387.532mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1387.532mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4369.651mil|Location2.X=4380.675mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4369.651mil|Location2.X=4380.675mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-11(1375.721mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True">Via (1364.004mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4369.651mil|Location2.X=4380.675mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4369.651mil|Location2.X=4380.675mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-11(1375.721mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.636mil|Location2.X=4361.636mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.636mil|Location2.X=4361.636mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1352.193mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4357.935mil|Location2.X=4368.958mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4357.935mil|Location2.X=4368.958mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-10(1364.004mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1375.721mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4357.935mil|Location2.X=4368.958mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4357.935mil|Location2.X=4368.958mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-10(1364.004mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True">Via (1364.004mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4346.124mil|Location2.X=4357.148mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4346.124mil|Location2.X=4357.148mil|Location1.Y=3327.284mil|Location2.Y=3338.308mil|Absolute=True">Pad U3-9(1352.193mil,-87.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3360.918mil|Location2.Y=3370.918mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3360.918mil|Location2.Y=3370.918mil|Absolute=True">Via (1334.303mil,-54.165mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3348.942mil|Location2.Y=3359.965mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3348.942mil|Location2.Y=3359.965mil|Absolute=True">Pad U3-8(1334.303mil,-65.63mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3406.788mil|Location2.Y=3417.812mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3406.788mil|Location2.Y=3417.812mil|Absolute=True">Pad U3-21(1449.067mil,-7.783mil)  Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3416.631mil|Location2.Y=3427.655mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3416.631mil|Location2.Y=3427.655mil|Absolute=True">Pad U3-22(1449.067mil,2.059mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3413.908mil|Location2.Y=3423.908mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3413.908mil|Location2.Y=3423.908mil|Absolute=True">Via (1334.303mil,-1.175mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3424.851mil|Location2.Y=3435.875mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3424.851mil|Location2.Y=3435.875mil|Absolute=True">Pad U3-2(1334.303mil,10.28mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3436.828mil|Location2.Y=3446.828mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.746mil|Location2.X=4338.746mil|Location1.Y=3436.828mil|Location2.Y=3446.828mil|Absolute=True">Via (1334.303mil,21.744mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3424.851mil|Location2.Y=3435.875mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.234mil|Location2.X=4339.258mil|Location1.Y=3424.851mil|Location2.Y=3435.875mil|Absolute=True">Pad U3-2(1334.303mil,10.28mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3454.371mil|Location2.Y=3464.371mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3454.371mil|Location2.Y=3464.371mil|Absolute=True">Via (1375.721mil,39.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4357.84mil|Location2.X=4368.864mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4357.84mil|Location2.X=4368.864mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Pad U3-31(1363.909mil,39.287mil)  Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3925.094mil|Location2.X=4122.15mil|Location1.Y=3480.078mil|Location2.Y=4162.083mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3925.094mil|Location2.X=4122.15mil|Location1.Y=3480.078mil|Location2.Y=4162.083mil|Absolute=True"></acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3994.05mil|Location2.X=4054.25mil|Location1.Y=4036.979mil|Location2.Y=4097.179mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3994.05mil|Location2.X=4054.25mil|Location1.Y=4036.979mil|Location2.Y=4097.179mil|Absolute=True">Pad S_PAD-1(1024.707mil,646.995mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3924.999mil|Location2.X=4121.851mil|Location1.Y=2677.868mil|Location2.Y=3356.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3924.999mil|Location2.X=4121.851mil|Location1.Y=2677.868mil|Location2.Y=3356.079mil|Absolute=True"></acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3993.05mil|Location2.X=4053.25mil|Location1.Y=2722.979mil|Location2.Y=2783.179mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3993.05mil|Location2.X=4053.25mil|Location1.Y=2722.979mil|Location2.Y=2783.179mil|Absolute=True">Pad S_PAD1-1(1023.707mil,-667.005mil)  Top Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1387.532mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1375.721mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True">Via (1364.004mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4370.163mil|Location2.X=4380.163mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1375.721mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4376.974mil|Location2.X=4396.974mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1387.532mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.87mil|Location2.X=4403.87mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4393.87mil|Location2.X=4403.87mil|Location1.Y=3327.796mil|Location2.Y=3337.796mil|Absolute=True">Via (1399.427mil,-87.287mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td style="width:50%; text-align:left" class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.636mil|Location2.X=4361.636mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4341.636mil|Location2.X=4361.636mil|Location1.Y=3322.796mil|Location2.Y=3342.796mil|Absolute=True">Via (1352.193mil,-87.287mil) Int3 (Sign) to Bottom Layer</acronym></a></td>
+<td style="width:50%; text-align:left" class="column2"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4353.447mil|Location2.X=4373.447mil|Location1.Y=3322.954mil|Location2.Y=3342.954mil|Absolute=True">Via (1364.004mil,-87.13mil) Int4 (GND) to Bottom Layer</acronym></a></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br><a name="IDYOT3MFGOTU2EGE2NXYQNPGYIXB13WN2RZV3LJEIA422G1PKSU03P"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Un-Routed Net Constraint ( (All) )</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4581.159mil|Location1.Y=3416.631mil|Location2.Y=3468.95mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4581.159mil|Location1.Y=3416.631mil|Location2.Y=3468.95mil|Absolute=True">Un-Routed Net Constraint: Net NetL5_1 Between Pad U3-22 (1449.067,2.059mil) And Pad L5-1 (1560,29.118mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2964.443mil|Location2.X=4492.055mil|Location1.Y=3217.084mil|Location2.Y=3071.255mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2964.443mil|Location2.X=4492.055mil|Location1.Y=3217.084mil|Location2.Y=3071.255mil|Absolute=True">Un-Routed Net Constraint: Net VBAT Between Track on layer Int3 (Sign) (65,-103mil) And Pad P1-1 (1392.612,-448.829mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.232mil|Location2.X=4422.088mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.232mil|Location2.X=4422.088mil|Location1.Y=3453.859mil|Location2.Y=3464.883mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad U3-27 (1407.301,39.287mil) And Pad U3-26 (1417.134,39.287mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3396.946mil|Location2.Y=3417.812mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3396.946mil|Location2.Y=3417.812mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad U3-20 (1449.067,-17.626mil) And Pad U3-21 (1449.067,-7.783mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3349.101mil|Location2.Y=3407.969mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4442.998mil|Location2.X=4454.021mil|Location1.Y=3349.101mil|Location2.Y=3407.969mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad U3-17 (1449.067,-65.47mil) And Pad U3-20 (1449.067,-17.626mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4348.51mil|Location2.X=4548.51mil|Location1.Y=3186.084mil|Location2.Y=3442.017mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4348.51mil|Location2.X=4548.51mil|Location1.Y=3186.084mil|Location2.Y=3442.017mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad R2-2 (1449.067,-134mil) And Track on layer Bottom Layer (1449.067,-78.067mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.205mil|Location2.X=4427.68mil|Location1.Y=3453.859mil|Location2.Y=3560.006mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.205mil|Location2.X=4427.68mil|Location1.Y=3453.859mil|Location2.Y=3560.006mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad C22-2 (1415,125.369mil) And Pad U3-26 (1417.134,39.287mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.396mil|Location2.X=4427.68mil|Location1.Y=3517.958mil|Location2.Y=3560.006mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4328.396mil|Location2.X=4427.68mil|Location1.Y=3517.958mil|Location2.Y=3560.006mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad U5-3 (1339.843,111.716mil) And Pad C22-2 (1415,125.369mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4411.065mil|Location2.X=4454.021mil|Location1.Y=3406.788mil|Location2.Y=3464.883mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4411.065mil|Location2.X=4454.021mil|Location1.Y=3406.788mil|Location2.Y=3464.883mil|Absolute=True">Un-Routed Net Constraint: Net SVEE Between Pad U3-26 (1417.134,39.287mil) And Pad U3-21 (1449.067,-7.783mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4348.081mil|Location2.X=4369.86mil|Location1.Y=3517.958mil|Location2.Y=3579.989mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4348.081mil|Location2.X=4369.86mil|Location1.Y=3517.958mil|Location2.Y=3579.989mil|Absolute=True">Un-Routed Net Constraint: Net SVCC Between Pad C21-1 (1359,154mil) And Pad U5-4 (1359.528,111.716mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.205mil|Location2.X=4490.065mil|Location1.Y=3494.161mil|Location2.Y=3523.268mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4401.205mil|Location2.X=4490.065mil|Location1.Y=3494.161mil|Location2.Y=3523.268mil|Absolute=True">Un-Routed Net Constraint: Net SVCC Between Pad C22-1 (1415,88.631mil) And Pad C23-1 (1485.701,89mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4174.443mil|Location2.X=4487.059mil|Location1.Y=3382.202mil|Location2.Y=3581.331mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4174.443mil|Location2.X=4487.059mil|Location1.Y=3382.202mil|Location2.Y=3581.331mil|Absolute=True">Un-Routed Net Constraint: Net SVCC Between Pad L4-2 [Unplated] (1275,62.118mil) And Track on layer Bottom Layer (1387.616,61.247mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3994.05mil|Location2.X=4363.364mil|Location1.Y=3568.178mil|Location2.Y=4097.179mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3994.05mil|Location2.X=4363.364mil|Location1.Y=3568.178mil|Location2.Y=4097.179mil|Absolute=True">Un-Routed Net Constraint: Net SVCC Between Pad S_PAD-1 (1024.707,646.995mil) And Pad C21-1 (1359,154mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4258.97mil|Location2.X=4487.059mil|Location1.Y=3431.8mil|Location2.Y=3581.331mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4258.97mil|Location2.X=4487.059mil|Location1.Y=3431.8mil|Location2.Y=3581.331mil|Absolute=True">Un-Routed Net Constraint: Net SVCC Between Pad U5-4 (1359.528,111.716mil) And Track on layer Bottom Layer (1387.616,61.247mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3993.05mil|Location2.X=4454.021mil|Location1.Y=2722.979mil|Location2.Y=3398.127mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3993.05mil|Location2.X=4454.021mil|Location1.Y=2722.979mil|Location2.Y=3398.127mil|Absolute=True">Un-Routed Net Constraint: Net RING Between Pad S_PAD1-1 (1023.707,-667.005mil) And Pad U3-19 (1449.067,-27.468mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2976.939mil|Location2.X=4424.583mil|Location1.Y=2697.487mil|Location2.Y=3272.221mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2976.939mil|Location2.X=4424.583mil|Location1.Y=2697.487mil|Location2.Y=3272.221mil|Absolute=True">Un-Routed Net Constraint: </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3050.563mil|Location2.X=4424.583mil|Location1.Y=2817.607mil|Location2.Y=3501.356mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3050.563mil|Location2.X=4424.583mil|Location1.Y=2817.607mil|Location2.Y=3501.356mil|Absolute=True">Un-Routed Net Constraint: Net PBEN Between Pad IC1-4 [Unplated] (65.947,72.351mil) And Pad P2-1 (1391.612,-568.949mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3009.128mil|Location2.X=4424.583mil|Location1.Y=3057.847mil|Location2.Y=3459.619mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3009.128mil|Location2.X=4424.583mil|Location1.Y=3057.847mil|Location2.Y=3459.619mil|Absolute=True">Un-Routed Net Constraint: Net CHRG Between Pad U2-6 (19,19mil) And Pad P3-1 (1391.612,-328.709mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3004.6mil|Location2.X=3041.783mil|Location1.Y=3245.128mil|Location2.Y=3256.939mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3004.6mil|Location2.X=3041.783mil|Location1.Y=3245.128mil|Location2.Y=3256.939mil|Absolute=True">Un-Routed Net Constraint: </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4236.943mil|Location2.X=4339.258mil|Location1.Y=3360.702mil|Location2.Y=3419.702mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4236.943mil|Location2.X=4339.258mil|Location1.Y=3360.702mil|Location2.Y=3419.702mil|Absolute=True">Un-Routed Net Constraint: Net 3V3 Between Pad L4-1 [Unplated] (1275,-29.882mil) And Pad U3-4 (1334.303,-21.868mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3028.004mil|Location2.X=3364.642mil|Location1.Y=3245.128mil|Location2.Y=3399.571mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3028.004mil|Location2.X=3364.642mil|Location1.Y=3245.128mil|Location2.Y=3399.571mil|Absolute=True">Un-Routed Net Constraint: Net 3V3 Between Pad C18-1 (35.451,-169.05mil) And Pad J1-1 (345.707,-40.005mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3325.657mil|Location2.X=4311.943mil|Location1.Y=3360.587mil|Location2.Y=3419.702mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3325.657mil|Location2.X=4311.943mil|Location1.Y=3360.587mil|Location2.Y=3419.702mil|Absolute=True">Un-Routed Net Constraint: Net 3V3 Between Pad J1-1 (345.707,-40.005mil) And Pad L4-1 [Unplated] (1275,-29.882mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4226.746mil|Location2.X=4463.447mil|Location1.Y=3205.78mil|Location2.Y=3432.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4226.746mil|Location2.X=4463.447mil|Location1.Y=3205.78mil|Location2.Y=3432.796mil|Absolute=True">Un-Routed Net Constraint: Net SSCK Between Track on layer Int3 (Sign) (1327.303,-114.303mil) And Pad U3-10 (1364.004,-87.287mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3502.033mil|Location2.X=3526.836mil|Location1.Y=3306.674mil|Location2.Y=3317.697mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3502.033mil|Location2.X=3526.836mil|Location1.Y=3306.674mil|Location2.Y=3317.697mil|Absolute=True">Un-Routed Net Constraint: Net VDD_nRF Between Pad U1-J10 (508.102,-107.898mil) And Pad U1-H10 (521.882,-107.898mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3497.545mil|Location2.X=3517.545mil|Location1.Y=3306.674mil|Location2.Y=3335.966mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3497.545mil|Location2.X=3517.545mil|Location1.Y=3306.674mil|Location2.Y=3335.966mil|Absolute=True">Un-Routed Net Constraint: Net VDD_nRF Between Pad U1-J10 (508.102,-107.898mil) And Via (508.102,-94.118mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3594.003mil|Location2.X=3614.003mil|Location1.Y=3329.744mil|Location2.Y=3414.153mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3594.003mil|Location2.X=3614.003mil|Location1.Y=3329.744mil|Location2.Y=3414.153mil|Absolute=True">Un-Routed Net Constraint: Net VDD_nRF Between Via (604.56,-80.34mil) And Pad U1-B3 (604.56,-11.442mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3488.255mil|Location2.X=3517.545mil|Location1.Y=3315.966mil|Location2.Y=3441.713mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3488.255mil|Location2.X=3517.545mil|Location1.Y=3315.966mil|Location2.Y=3441.713mil|Absolute=True">Un-Routed Net Constraint: Net VDD_nRF Between Pad U1-K1 (494.324,16.118mil) And Via (508.102,-94.118mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3535.439mil|Location2.X=3612.348mil|Location1.Y=3257.454mil|Location2.Y=3283.005mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3535.439mil|Location2.X=3612.348mil|Location1.Y=3257.454mil|Location2.Y=3283.005mil|Absolute=True">Un-Routed Net Constraint: Net VDD_nRF Between Pad C8-1 (545.906,-151.279mil) And Pad C2-1 (607,-142mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4371.675mil|Location2.X=4407.234mil|Location1.Y=3264.367mil|Location2.Y=3337.796mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4371.675mil|Location2.X=4407.234mil|Location1.Y=3264.367mil|Location2.Y=3337.796mil|Absolute=True">Un-Routed Net Constraint: Net SGND Between Pad R2-1 (1390.012,-134mil) And Via (1399.427,-87.287mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4327.222mil|Location2.X=4407.234mil|Location1.Y=3264.367mil|Location2.Y=3307.8mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4327.222mil|Location2.X=4407.234mil|Location1.Y=3264.367mil|Location2.Y=3307.8mil|Absolute=True">Un-Routed Net Constraint: Net SGND Between Pad C19-2 (1332.701,-145mil) And Pad R2-1 (1390.012,-134mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.15mil|Location2.X=3445.863mil|Location1.Y=3430.293mil|Location2.Y=3485.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3340.15mil|Location2.X=3445.863mil|Location1.Y=3430.293mil|Location2.Y=3485.079mil|Absolute=True">Un-Routed Net Constraint: Net SGND Between Via (345.707,59.995mil) And Pad C9-2 (441.499,16.115mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3115.404mil|Location2.X=3350.15mil|Location1.Y=3407.173mil|Location2.Y=3485.079mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3115.404mil|Location2.X=3350.15mil|Location1.Y=3407.173mil|Location2.Y=3485.079mil|Absolute=True">Un-Routed Net Constraint: Net SGND Between Via (120.961,-7.91mil) And Via (345.707,59.995mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.443mil|Location2.X=4433.746mil|Location1.Y=3347.084mil|Location2.Y=3541.828mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.443mil|Location2.X=4433.746mil|Location1.Y=3347.084mil|Location2.Y=3541.828mil|Absolute=True">Un-Routed Net Constraint: Net SGND Between Track on layer Top Layer (712,27mil) And Via (1334.303,21.744mil)</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3587.313mil|Location2.X=3623.293mil|Location1.Y=3334.232mil|Location2.Y=3497.425mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=E:\D Drive Data\FREE LANCER PROJECTS\SMB\Flex PCB\PCB1.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3587.313mil|Location2.X=3623.293mil|Location1.Y=3334.232mil|Location2.Y=3497.425mil|Absolute=True">Un-Routed Net Constraint: Net DEC4_6 Between Pad C7-1 (594.76,71.436mil) And Pad U1-A8 (618.338,-80.34mil)</acronym></a><br></td>
+</tr>
+</table></a><a href="#top">Back to top</a><br><br></body>
+</html>

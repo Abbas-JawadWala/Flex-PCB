@@ -1,0 +1,78 @@
+Added Component: Designator=U1(BGA94C35P10X10_352X356X50)
+Add component (AddParameter): Name = "Assembly"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Footprint Doc"; Value = "WLCSP-94"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "2018-12-17"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Nordic Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "nRF52840-CKAAD0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Part Number"; Value = "nRF52840-CKAAD0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pin Count"; Value = "94"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "2018-12-17"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Nordic Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "nRF52840_CKAA"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetC5_2 Pin=U1-A1
+Added Pin To Net: NetName=NetC4_1 Pin=U1-A2
+Added Pin To Net: NetName=P0.30/AIN6 Pin=U1-A7
+Added Pin To Net: NetName=NetC1_2 Pin=U1-A8
+Added Pin To Net: NetName=NetL2_2 Pin=U1-A9
+Added Pin To Net: NetName=NetC6_1 Pin=U1-A10
+Added Pin To Net: NetName=VDD_nRF Pin=U1-B3
+Added Pin To Net: NetName=GND Pin=U1-B7
+Added Pin To Net: NetName=NetC3_1 Pin=U1-B8
+Added Pin To Net: NetName=GND Pin=U1-C1
+Added Pin To Net: NetName=NetC1_2 Pin=U1-C2
+Added Pin To Net: NetName=GND Pin=U1-C4
+Added Pin To Net: NetName=P0.29/AIN5 Pin=U1-C7
+Added Pin To Net: NetName=P0.31/AIN7 Pin=U1-C8
+Added Pin To Net: NetName=GND Pin=U1-D3
+Added Pin To Net: NetName=GND Pin=U1-D4
+Added Pin To Net: NetName=GND Pin=U1-D5
+Added Pin To Net: NetName=GND Pin=U1-D6
+Added Pin To Net: NetName=GND Pin=U1-D7
+Added Pin To Net: NetName=GND Pin=U1-D8
+Added Pin To Net: NetName=NetL3_1 Pin=U1-E1
+Added Pin To Net: NetName=GND Pin=U1-E4
+Added Pin To Net: NetName=GND Pin=U1-E5
+Added Pin To Net: NetName=GND Pin=U1-E6
+Added Pin To Net: NetName=GND Pin=U1-E7
+Added Pin To Net: NetName=GND Pin=U1-E8
+Added Pin To Net: NetName=NetC8_2 Pin=U1-F2
+Added Pin To Net: NetName=GND Pin=U1-F4
+Added Pin To Net: NetName=GND Pin=U1-F5
+Added Pin To Net: NetName=GND Pin=U1-F6
+Added Pin To Net: NetName=GND Pin=U1-F7
+Added Pin To Net: NetName=GND Pin=U1-F8
+Added Pin To Net: NetName=GND Pin=U1-G4
+Added Pin To Net: NetName=GND Pin=U1-G5
+Added Pin To Net: NetName=GND Pin=U1-G6
+Added Pin To Net: NetName=GND Pin=U1-G7
+Added Pin To Net: NetName=GND Pin=U1-G8
+Added Pin To Net: NetName=P1.08 Pin=U1-G9
+Added Pin To Net: NetName=SDIN Pin=U1-H4
+Added Pin To Net: NetName=SDOUT Pin=U1-H6
+Added Pin To Net: NetName=VDD_nRF Pin=U1-H10
+Added Pin To Net: NetName=VDD_nRF Pin=U1-J9
+Added Pin To Net: NetName=VDD_nRF Pin=U1-J10
+Added Pin To Net: NetName=VDD_nRF Pin=U1-K1
+Added Pin To Net: NetName=SCS Pin=U1-K2
+Added Pin To Net: NetName=VDD_nRF Pin=U1-K5
+Added Pin To Net: NetName=SSCK Pin=U1-K7
+Added Pin To Net: NetName=NetC10_2 Pin=U1-K9
+Added Pin To Net: NetName=GND Pin=U1-K10
+Added Member To Class: ClassName=nRF 52840 Member=Component C1 1uF
+Added Member To Class: ClassName=nRF 52840 Member=Component C2 47nF
+Added Member To Class: ClassName=nRF 52840 Member=Component C3 1uF
+Added Member To Class: ClassName=nRF 52840 Member=Component C4 10pF
+Added Member To Class: ClassName=nRF 52840 Member=Component C5 10pF
+Added Member To Class: ClassName=nRF 52840 Member=Component C6 100nF
+Added Member To Class: ClassName=nRF 52840 Member=Component C7 1pF
+Added Member To Class: ClassName=nRF 52840 Member=Component C8 820pF
+Added Member To Class: ClassName=nRF 52840 Member=Component C9 4.7uF
+Added Member To Class: ClassName=nRF 52840 Member=Component C10 4.7uF
+Added Member To Class: ClassName=nRF 52840 Member=Component C11 4.7uF
+Added Member To Class: ClassName=nRF 52840 Member=Component C12 100nF
+Added Member To Class: ClassName=nRF 52840 Member=Component L1 15nH
+Added Member To Class: ClassName=nRF 52840 Member=Component L2 10uH
+Added Member To Class: ClassName=nRF 52840 Member=Component L3 3.9nH
+Added Member To Class: ClassName=nRF 52840 Member=Component L4 4.7nH
+Added Member To Class: ClassName=nRF 52840 Member=Component U1 nRF52840_CKAA
+Added Member To Class: ClassName=nRF 52840 Member=Component Y1 32Mhz
