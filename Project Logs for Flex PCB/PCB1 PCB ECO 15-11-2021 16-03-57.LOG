@@ -1,0 +1,5 @@
+Change Component Library : Designator=IC1 Old Library=* New Library=Flex PCB.IntLib
+Change Component Library : Designator=L5 Old Library=* New Library=Flex PCB.IntLib
+Change Component Library : Designator=L6 Old Library=* New Library=Flex PCB.IntLib
+Change Component Library : Designator=U2 Old Library=EnviroSCAN.SchLib New Library=Flex PCB.IntLib
+Change Component Library : Designator=C19 Old Library=SnapEDA_Library.IntLib New Library=Flex PCB.IntLib
