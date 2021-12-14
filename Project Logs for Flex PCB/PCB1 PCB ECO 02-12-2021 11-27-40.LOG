@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=GND Pin=-1
+Added Pin To Net: NetName=B57153S0150M000 Pin=IC1-1
+Added Net: Name=B57153S0150M000
+Added Room: Name=BMS
+Added Room: Name=nRF 52840
+Added Room: Name=SS8400C

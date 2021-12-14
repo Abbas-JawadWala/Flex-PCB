@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=RING1 Pin=L7-2
+Removed Member From Class: ClassName=SS8400C Member=L7
+Added Room: Name=BMS
+Added Room: Name=nRF 52840
+Added Room: Name=SS8400C

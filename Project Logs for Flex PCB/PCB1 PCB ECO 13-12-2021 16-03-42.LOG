@@ -1,0 +1,8 @@
+Added Pin To Net: NetName=Antenna Pin=L4-2
+Added Net: Name=Antenna
+Added Member To Class: ClassName=2.4GhZ RF Member=Wire Antenna
+Added Member To Class: ClassName=2.4GhZ RF Member=Wire NetC7_2
+Added Member To Class: ClassName=2.4GhZ RF Member=Wire NetL3_1
+Added Room: Name=BMS
+Added Room: Name=nRF 52840
+Added Room: Name=SS8400C
